@@ -13,15 +13,22 @@ export class ProductServiceApiStack extends cdk.Stack {
       handler: 'getProductsList.handler',
     });
 
-    const api = new apigateway.LambdaRestApi(this, 'ProductServiceApi', {
-      handler: getProductsListFn,
+    const getProductsByIdFn = new lambda.Function(this, 'productsById', {
+      runtime: lambda.Runtime.NODEJS_20_X,
+      code: lambda.Code.fromAsset('lambda'),
+      handler: 'getProductsById.handler',
+    });
+
+    const api = new apigateway.RestApi(this, 'ProductServiceApi', {
       deployOptions: {
         stageName: 'dev',
       },
-      proxy: false,
     });
 
     const getProductsListResource = api.root.addResource('products');
-    getProductsListResource.addMethod('GET');
+    getProductsListResource.addMethod('GET', new apigateway.LambdaIntegration(getProductsListFn));
+
+    const getProductsByIdResource = getProductsListResource.addResource('{id}');
+    getProductsByIdResource.addMethod('GET', new apigateway.LambdaIntegration(getProductsByIdFn));
   }
 }
