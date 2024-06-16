@@ -6,5 +6,6 @@ describe('getProductsList', () => {
     const response = await handler();
 
     expect(response.body).toEqual(JSON.stringify(PRODUCTS));
+    expect(response.statusCode).toEqual(200);
   });
 });
