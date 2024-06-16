@@ -1,8 +1,8 @@
 {
-  "name": "cdk-test",
+  "name": "nodejs-aws-shop-backend",
   "version": "0.1.0",
   "bin": {
-    "cdk-test": "bin/cdk-test.js"
+    "nodejs-aws-shop-backend": "bin/nodejs-aws-shop-backend.js"
   },
   "scripts": {
     "build": "tsc",
