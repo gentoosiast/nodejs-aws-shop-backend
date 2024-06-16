@@ -1,0 +1,40 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "2024-06-16T18:53:09Z",
+    "title" : "ProductServiceApi"
+  },
+  "host" : "ab19o21i40.execute-api.eu-north-1.amazonaws.com",
+  "basePath" : "/dev",
+  "schemes" : [ "https" ],
+  "paths" : {
+    "/products" : {
+      "get" : {
+        "responses" : { },
+        "x-amazon-apigateway-integration" : {
+          "httpMethod" : "POST",
+          "uri" : "arn:aws:apigateway:eu-north-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-north-1:211125330358:function:ProductServiceApiStack-products606FDFD3-cgcaCZPUdfGA/invocations",
+          "passthroughBehavior" : "when_no_match",
+          "type" : "aws_proxy"
+        }
+      }
+    },
+    "/products/{id}" : {
+      "get" : {
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : { },
+        "x-amazon-apigateway-integration" : {
+          "httpMethod" : "POST",
+          "uri" : "arn:aws:apigateway:eu-north-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-north-1:211125330358:function:ProductServiceApiStack-productsByIdF298820A-Rxb3zJjJydBY/invocations",
+          "passthroughBehavior" : "when_no_match",
+          "type" : "aws_proxy"
+        }
+      }
+    }
+  }
+}
