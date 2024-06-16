@@ -10,7 +10,8 @@
     "test": "jest",
     "format": "prettier --write .",
     "cdk": "cdk",
-    "deploy": "npm run build && cdk deploy"
+    "deploy": "npm run build && cdk deploy",
+    "destroy": "cdk destroy -f"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.138",
