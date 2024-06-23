@@ -8,6 +8,16 @@ export class ProductServiceApiStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
+    const api = new apigateway.RestApi(this, 'ProductServiceApi', {
+      deployOptions: {
+        stageName: 'dev',
+      },
+      defaultCorsPreflightOptions: {
+        allowOrigins: apigateway.Cors.ALL_ORIGINS,
+        allowMethods: apigateway.Cors.ALL_METHODS,
+      },
+    });
+
     const getProductsListFn = new lambda.Function(this, 'products', {
       runtime: lambda.Runtime.NODEJS_20_X,
       code: lambda.Code.fromAsset('lambda'),
@@ -50,31 +60,84 @@ export class ProductServiceApiStack extends cdk.Stack {
       }),
     );
 
-    const api = new apigateway.RestApi(this, 'ProductServiceApi', {
-      deployOptions: {
-        stageName: 'dev',
+    const createProductRequestValidator = new apigateway.RequestValidator(
+      this,
+      'createProductRequestValidator',
+      {
+        restApi: api,
+        requestValidatorName: 'createProductRequestValidator',
+        validateRequestParameters: true,
+      },
+    );
+
+    const createProductFn = new lambda.Function(this, 'createProduct', {
+      runtime: lambda.Runtime.NODEJS_20_X,
+      code: lambda.Code.fromAsset('lambda'),
+      handler: 'createProduct.handler',
+      environment: {
+        PRODUCTS_TABLE_NAME: 'rsschool_product',
       },
     });
 
-    const getProductsListResource = api.root.addResource('products');
-    getProductsListResource.addMethod('GET', new apigateway.LambdaIntegration(getProductsListFn));
+    createProductFn.addToRolePolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ['dynamodb:PutItem'],
+        resources: ['arn:aws:dynamodb:eu-north-1:211125330358:table/rsschool_product'],
+      }),
+    );
 
-    // const getProductsByIdResourceRequestValidator = new apigateway.RequestValidator(
-    //   this,
-    //   'productsByIdRequestValidator',
-    //   {
-    //     restApi: api,
-    //     requestValidatorName: 'productsByIdRequestValidator',
-    //     validateRequestParameters: true,
-    //   },
-    // );
+    const productModel = new apigateway.Model(this, 'productModel', {
+      restApi: api,
+      contentType: 'application/json',
+      schema: {
+        type: apigateway.JsonSchemaType.OBJECT,
+        properties: {
+          title: {
+            type: apigateway.JsonSchemaType.STRING,
+            minLength: 1,
+          },
+          description: {
+            type: apigateway.JsonSchemaType.STRING,
+          },
+          price: {
+            type: apigateway.JsonSchemaType.NUMBER,
+            minimum: 0,
+          },
+          count: {
+            type: apigateway.JsonSchemaType.NUMBER,
+            minimum: 0,
+          },
+        },
+        required: ['title', 'description', 'price', 'count'],
+      },
+    });
 
-    const getProductsByIdResource = getProductsListResource.addResource('{id}');
+    const productsResource = api.root.addResource('products');
+    productsResource.addMethod('GET', new apigateway.LambdaIntegration(getProductsListFn));
+    productsResource.addMethod('POST', new apigateway.LambdaIntegration(createProductFn), {
+      requestValidator: createProductRequestValidator,
+      requestModels: {
+        'application/json': productModel,
+      },
+    });
+
+    const getProductsByIdResourceRequestValidator = new apigateway.RequestValidator(
+      this,
+      'productsByIdRequestValidator',
+      {
+        restApi: api,
+        requestValidatorName: 'productsByIdRequestValidator',
+        validateRequestParameters: true,
+      },
+    );
+
+    const getProductsByIdResource = productsResource.addResource('{id}');
     getProductsByIdResource.addMethod('GET', new apigateway.LambdaIntegration(getProductsByIdFn), {
-      // requestParameters: {
-      //   'method.request.path.id': true,
-      // },
-      // requestValidator: getProductsByIdResourceRequestValidator,
+      requestParameters: {
+        'method.request.path.id': true,
+      },
+      requestValidator: getProductsByIdResourceRequestValidator,
     });
   }
 }

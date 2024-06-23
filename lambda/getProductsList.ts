@@ -12,7 +12,7 @@ const headers = {
 
 export const handler = async () => {
   try {
-    console.log('Lambda incoming request: /products');
+    console.log('Lambda incoming request: GET /products');
 
     const scanProductsCommand = new ScanCommand({
       TableName: process.env.PRODUCTS_TABLE_NAME,

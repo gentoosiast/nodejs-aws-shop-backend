@@ -27,6 +27,45 @@
           "passthroughBehavior": "when_no_match",
           "type": "aws_proxy"
         }
+      },
+      "post": {
+        "summary": "Create new product",
+        "description": "Creates new product",
+        "operationId": "createNewProduct",
+        "parameters": [
+          {
+            "name": "title",
+            "description": "Product's title",
+            "required": true,
+            "minLength": 1,
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "description": "Product's description",
+            "type": "string"
+          },
+          {
+            "name": "price",
+            "description": "Product's price",
+            "minimum": 0,
+            "type": "number"
+          },
+          {
+            "name": "count",
+            "description": "Quantity of products in stock",
+            "minimum": 0,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
       }
     },
     "/products/{id}": {

@@ -1,0 +1,41 @@
+@baseUrl = https://ab19o21i40.execute-api.eu-north-1.amazonaws.com/dev
+
+###
+# List of products
+GET {{baseUrl}}/products
+
+###
+# Create new product
+POST {{baseUrl}}/products
+Content-Type: application/json
+
+{
+  "title": "Just a sample title of new product",
+  "description": "Just a description of new product",
+  "price": 42,
+  "count": 3
+}
+
+###
+# Bad body for creation of new product
+POST {{baseUrl}}/products
+Content-Type: application/json
+
+{
+  "title": 666,
+  "description": "Just a description of new product",
+  "price": 42,
+  "count": 3
+}
+
+###
+# Get single product
+GET {{baseUrl}}/products/2a32b1ad-f5e6-454e-b07c-6bb9f4ea36c1
+
+###
+# Product not found
+GET {{baseUrl}}/products/2a32b1ad-f2e6-454e-b07c-6bb9f4ea36c1
+
+###
+# Invalid UUID
+GET {{baseUrl}}/products/abra-cada-bra
