@@ -1,17 +1,21 @@
 {
-  "name": "cdk-test",
+  "name": "nodejs-aws-shop-backend",
   "version": "0.1.0",
   "bin": {
-    "cdk-test": "bin/cdk-test.js"
+    "nodejs-aws-shop-backend": "bin/nodejs-aws-shop-backend.js"
   },
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest",
+    "test:watch": "jest --watchAll",
     "format": "prettier --write .",
-    "cdk": "cdk"
+    "cdk": "cdk",
+    "deploy": "npm run build && cdk deploy",
+    "destroy": "cdk destroy -f"
   },
   "devDependencies": {
+    "@types/aws-lambda": "^8.10.138",
     "@types/jest": "^29.5.12",
     "@types/node": "20.14.2",
     "aws-cdk": "2.146.0",
