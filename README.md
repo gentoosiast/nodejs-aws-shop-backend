@@ -6,7 +6,7 @@ Microservice `ProductServiceApi` created using `AWS CDK`, `AWS API Gateway`, `AW
 
 `GET /products`
 
-The response from the lambda returns full array of products (mock data used and stored in Product Service).
+The response from the lambda returns full array of products (data stored in DynamoDB).
 
 `POST /products`
 
@@ -14,7 +14,7 @@ This request allows to create new product
 
 `GET /products/{productId}`
 
-The response from the lambda returns searched product from an array of products or error message and 404 status code if product was not found (mock data used and stored in Product Service).
+The response from the lambda returns searched product from an array of products or error message and 404 status code if product was not found (data stored in DynamoDB).
 
 Lambda handlers covered by unit tests.
 
