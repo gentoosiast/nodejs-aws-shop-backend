@@ -18,7 +18,7 @@ The response from the lambda returns searched product from an array of products 
 
 Lambda handlers covered by unit tests.
 
-Swagger (OpenAPI) documentation is provided <https://raw.githubusercontent.com/gentoosiast/nodejs-aws-shop-backend/task-3/openapi.json>
+Swagger (OpenAPI) documentation is provided <https://raw.githubusercontent.com/gentoosiast/nodejs-aws-shop-backend/task-4/openapi.json>
 
 ## Useful commands
 
