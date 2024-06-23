@@ -4,11 +4,15 @@ Microservice `ProductServiceApi` created using `AWS CDK`, `AWS API Gateway`, `AW
 
 ## Endpoints
 
-`/products`
+`GET /products`
 
 The response from the lambda returns full array of products (mock data used and stored in Product Service).
 
-`/products/{productId}`
+`POST /products`
+
+This request allows to create new product
+
+`GET /products/{productId}`
 
 The response from the lambda returns searched product from an array of products or error message and 404 status code if product was not found (mock data used and stored in Product Service).
 
@@ -26,6 +30,7 @@ Swagger (OpenAPI) documentation is provided <https://raw.githubusercontent.com/g
 - `npm run cdk`
 - `npm run deploy` deploy stack with the application to AWS
 - `npm run destroy` destroy deployed stack freeing all AWS resources
+- `npm run seed:db` seed DynamoDB with sample data
 - `npx cdk deploy` deploy this stack to your default AWS account/region
 - `npx cdk diff` compare deployed stack with current state
 - `npx cdk synth` emits the synthesized CloudFormation template
