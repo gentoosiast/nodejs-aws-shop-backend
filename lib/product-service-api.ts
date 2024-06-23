@@ -122,7 +122,7 @@ export class ProductServiceApiStack extends cdk.Stack {
             minimum: 0,
           },
         },
-        required: ['title', 'description', 'price', 'count'],
+        required: ['title', 'price', 'count'],
       },
     });
 
