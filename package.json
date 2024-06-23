@@ -13,7 +13,7 @@
     "cdk": "cdk",
     "deploy": "npm run build && cdk deploy",
     "destroy": "cdk destroy -f",
-    "seed-dynamodb": "cross-env PYTHONUTF8=1 aws dynamodb batch-write-item --request-items file://./data/dynamodb-seed.json"
+    "seed-db": "cross-env PYTHONUTF8=1 aws dynamodb batch-write-item --request-items file://./data/dynamodb-seed.json"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.138",
