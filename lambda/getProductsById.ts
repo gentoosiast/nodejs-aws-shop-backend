@@ -14,18 +14,6 @@ const headers = {
 const uuidRegex =
   /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/;
 
-type Product = {
-  id: string;
-  title: string;
-  description: string;
-  price: number;
-};
-
-type Stock = {
-  product_id: string;
-  count: number;
-};
-
 export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyResult> => {
   try {
     const productId = event.pathParameters?.id ?? '';
