@@ -1,3 +1,4 @@
+import type { APIGatewayProxyResult } from 'aws-lambda';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, ScanCommand } from '@aws-sdk/lib-dynamodb';
 
@@ -10,7 +11,7 @@ const headers = {
   'Access-Control-Allow-Methods': 'GET',
 };
 
-export const handler = async () => {
+export const handler = async (): Promise<APIGatewayProxyResult> => {
   try {
     console.log('Lambda incoming request: GET /products');
 

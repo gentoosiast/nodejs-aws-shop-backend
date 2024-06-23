@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import type { APIGatewayEvent } from 'aws-lambda';
+import type { APIGatewayEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, TransactWriteCommand } from '@aws-sdk/lib-dynamodb';
 
@@ -12,7 +12,7 @@ const headers = {
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
 };
 
-export const handler = async (event: APIGatewayEvent) => {
+export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyResult> => {
   try {
     console.log('Lambda incoming request: POST /products');
 

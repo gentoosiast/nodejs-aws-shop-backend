@@ -1,4 +1,4 @@
-import type { APIGatewayEvent } from 'aws-lambda';
+import type { APIGatewayEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, QueryCommand } from '@aws-sdk/lib-dynamodb';
 
@@ -26,7 +26,7 @@ type Stock = {
   count: number;
 };
 
-export const handler = async (event: APIGatewayEvent) => {
+export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyResult> => {
   try {
     const productId = event.pathParameters?.id ?? '';
 
