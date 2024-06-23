@@ -19,6 +19,9 @@
             "schema": {
               "$ref": "#/definitions/Products"
             }
+          },
+          "500": {
+            "description": "Internal Server Error (DB connection, any unhandled error in code)"
           }
         },
         "x-amazon-apigateway-integration": {
@@ -65,7 +68,10 @@
             "description": "OK"
           },
           "400": {
-            "description": "Bad request"
+            "description": "Bad request (Usually means request body contains invalid data)"
+          },
+          "500": {
+            "description": "Internal Server Error (DB connection, any unhandled error in code)"
           }
         }
       }
@@ -90,10 +96,19 @@
               "$ref": "#/definitions/Product"
             }
           },
+          "400": {
+            "description": "ID is not valid UUID.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
           "404": {
             "description": "A product with the specified ID was not found.",
             "schema": {
               "$ref": "#/definitions/Error"
+            },
+            "500": {
+              "description": "Internal Server Error (DB connection, any unhandled error in code)"
             }
           }
         },
