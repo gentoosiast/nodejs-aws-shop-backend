@@ -1,13 +1,13 @@
 import type { APIGatewayEvent } from 'aws-lambda';
 import { handler } from '../lambda/getProductsById';
-import { PRODUCTS } from '../lambda/mock-data';
+import { productsMap } from '../lambda/mock-data';
 
 const VALID_PRODUCT_ID = '4';
 const INVALID_PRODUCT_ID = '42';
 
 describe('getProductsById', () => {
   it('should return single product when valid ID is specified', async () => {
-    const product = PRODUCTS.find((product) => product.id === VALID_PRODUCT_ID);
+    const product = productsMap.get(VALID_PRODUCT_ID);
     const response = await handler({
       pathParameters: { id: VALID_PRODUCT_ID },
     } as unknown as APIGatewayEvent);

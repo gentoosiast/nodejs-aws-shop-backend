@@ -1,5 +1,5 @@
 import type { APIGatewayEvent } from 'aws-lambda';
-import { PRODUCTS } from './mock-data';
+import { productsMap } from './mock-data';
 
 const headers = {
   'Content-Type': 'application/json',
@@ -8,8 +8,8 @@ const headers = {
 };
 
 export const handler = async (event: APIGatewayEvent) => {
-  const productId = event.pathParameters?.id;
-  const product = PRODUCTS.find((product) => product.id === productId);
+  const productId = event.pathParameters?.id ?? '';
+  const product = productsMap.get(productId);
 
   if (!product) {
     return {

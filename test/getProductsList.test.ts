@@ -1,11 +1,11 @@
 import { handler } from '../lambda/getProductsList';
-import { PRODUCTS } from '../lambda/mock-data';
+import { productsArr } from '../lambda/mock-data';
 
 describe('getProductsList', () => {
   it('should return array of mock products', async () => {
     const response = await handler();
 
-    expect(response.body).toEqual(JSON.stringify(PRODUCTS));
+    expect(response.body).toEqual(JSON.stringify(productsArr));
     expect(response.statusCode).toEqual(200);
   });
 });

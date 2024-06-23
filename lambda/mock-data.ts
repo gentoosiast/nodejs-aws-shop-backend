@@ -1,4 +1,4 @@
-export const PRODUCTS = [
+export const productsArr = [
   {
     id: '1',
     title: 'Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops',
@@ -79,4 +79,12 @@ export const PRODUCTS = [
     price: 109,
     count: 470,
   },
-] as const;
+];
+
+type Product = (typeof productsArr)[0];
+
+const kvObj = productsArr.reduce<Record<string, Product>>((acc, val) => {
+  acc[val.id] = val;
+  return acc;
+}, {});
+export const productsMap = new Map(Object.entries(kvObj));
