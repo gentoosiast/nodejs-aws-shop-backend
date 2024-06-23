@@ -13,7 +13,7 @@ const headers = {
 
 export const handler = async (): Promise<APIGatewayProxyResult> => {
   try {
-    console.log('Lambda incoming request: GET /products');
+    console.log(`${new Date()} Lambda 'getProductsList' got incoming request: GET /products`);
 
     const scanProductsCommand = new ScanCommand({
       TableName: process.env.PRODUCTS_TABLE_NAME,

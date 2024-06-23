@@ -26,7 +26,9 @@ export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyRe
       };
     }
 
-    console.log(`Lambda incoming request: GET /products/${productId}`);
+    console.log(
+      `${new Date()} Lambda 'getProductsById' got incoming request: GET /products/${productId}`,
+    );
 
     const getProductCommand = new QueryCommand({
       TableName: process.env.PRODUCTS_TABLE_NAME,

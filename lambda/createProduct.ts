@@ -14,7 +14,7 @@ const headers = {
 
 export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyResult> => {
   try {
-    console.log('Lambda incoming request: POST /products');
+    console.log(`${new Date()} Lambda 'createProduct' got incoming request: POST /products`);
 
     if (!event.body) {
       return {
