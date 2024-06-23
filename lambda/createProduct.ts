@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import type { APIGatewayEvent } from 'aws-lambda';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, PutCommand, TransactWriteCommand } from '@aws-sdk/lib-dynamodb';
+import { DynamoDBDocumentClient, TransactWriteCommand } from '@aws-sdk/lib-dynamodb';
 
 const client = new DynamoDBClient();
 const docClient = DynamoDBDocumentClient.from(client);
