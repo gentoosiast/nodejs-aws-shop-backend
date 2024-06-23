@@ -76,6 +76,7 @@ export class ProductServiceApiStack extends cdk.Stack {
       handler: 'createProduct.handler',
       environment: {
         PRODUCTS_TABLE_NAME: 'rsschool_product',
+        STOCKS_TABLE_NAME: 'rsschool_stock',
       },
     });
 
@@ -83,7 +84,10 @@ export class ProductServiceApiStack extends cdk.Stack {
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
         actions: ['dynamodb:PutItem'],
-        resources: ['arn:aws:dynamodb:eu-north-1:211125330358:table/rsschool_product'],
+        resources: [
+          'arn:aws:dynamodb:eu-north-1:211125330358:table/rsschool_product',
+          'arn:aws:dynamodb:eu-north-1:211125330358:table/rsschool_stock',
+        ],
       }),
     );
 

@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import type { APIGatewayEvent } from 'aws-lambda';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
+import { DynamoDBDocumentClient, PutCommand, TransactWriteCommand } from '@aws-sdk/lib-dynamodb';
 
 const client = new DynamoDBClient();
 const docClient = DynamoDBDocumentClient.from(client);
@@ -26,14 +26,28 @@ export const handler = async (event: APIGatewayEvent) => {
 
     console.log(`Request body: ${event.body}`);
 
-    const reqBody = JSON.parse(event.body);
+    const { title, description, price, count } = JSON.parse(event.body);
 
-    const createProductCommand = new PutCommand({
-      TableName: process.env.PRODUCTS_TABLE_NAME,
-      Item: { ...reqBody, id: randomUUID() },
+    const id = randomUUID();
+
+    const createProductTransactionCommand = new TransactWriteCommand({
+      TransactItems: [
+        {
+          Put: {
+            TableName: process.env.PRODUCTS_TABLE_NAME,
+            Item: { title, description, price, id },
+          },
+        },
+        {
+          Put: {
+            TableName: process.env.STOCKS_TABLE_NAME,
+            Item: { product_id: id, count },
+          },
+        },
+      ],
     });
 
-    const response = await docClient.send(createProductCommand);
+    const response = await docClient.send(createProductTransactionCommand);
 
     return {
       statusCode: 201,
