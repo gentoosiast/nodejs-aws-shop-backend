@@ -11,6 +11,9 @@ const headers = {
   'Access-Control-Allow-Methods': 'GET',
 };
 
+const uuidRegex =
+  /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/;
+
 type Product = {
   id: string;
   title: string;
@@ -27,7 +30,15 @@ export const handler = async (event: APIGatewayEvent) => {
   try {
     const productId = event.pathParameters?.id ?? '';
 
-    console.log(`Lambda incoming request: /products/${productId}`);
+    if (!uuidRegex.test(productId)) {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({ message: `Product ID ${productId} is not valid UUID` }),
+      };
+    }
+
+    console.log(`Lambda incoming request: GET /products/${productId}`);
 
     const getProductCommand = new QueryCommand({
       TableName: process.env.PRODUCTS_TABLE_NAME,
@@ -63,12 +74,10 @@ export const handler = async (event: APIGatewayEvent) => {
       body: JSON.stringify(aggregatedProduct),
     };
   } catch (err) {
-    const errorMessage = err instanceof Error ? err.message : err;
-
     return {
       statusCode: 500,
       headers,
-      body: JSON.stringify({ message: errorMessage }),
+      body: JSON.stringify(err, null, 2),
     };
   }
 };
