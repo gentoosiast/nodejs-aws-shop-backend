@@ -39,7 +39,7 @@ export const handler = async () => {
     });
 
     return {
-      status: 200,
+      statusCode: 200,
       headers,
       body: JSON.stringify(aggregatedProducts),
     };
@@ -47,7 +47,7 @@ export const handler = async () => {
     return {
       statusCode: 500,
       headers,
-      body: JSON.stringify({ message: JSON.stringify(err, null, 2) }),
+      body: JSON.stringify(err, null, 2),
     };
   }
 };
