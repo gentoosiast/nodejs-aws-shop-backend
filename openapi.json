@@ -48,12 +48,14 @@
           {
             "name": "price",
             "description": "Product's price",
+            "required": true,
             "minimum": 0,
             "type": "number"
           },
           {
             "name": "count",
             "description": "Quantity of products in stock",
+            "required": true,
             "minimum": 0,
             "type": "number"
           }
