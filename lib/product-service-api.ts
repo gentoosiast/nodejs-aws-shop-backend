@@ -1,6 +1,7 @@
 import * as cdk from 'aws-cdk-lib';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
+import { ResponseType } from 'aws-cdk-lib/aws-apigateway';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import type { Construct } from 'constructs';
 
@@ -15,6 +16,14 @@ export class ProductServiceApiStack extends cdk.Stack {
       defaultCorsPreflightOptions: {
         allowOrigins: apigateway.Cors.ALL_ORIGINS,
         allowMethods: apigateway.Cors.ALL_METHODS,
+      },
+    });
+
+    api.addGatewayResponse('CreateProductValidationFailed', {
+      type: ResponseType.BAD_REQUEST_BODY,
+      templates: {
+        'application/json':
+          '{"message": "$context.error.messageString", "issues": ["$context.error.validationErrorString"]}',
       },
     });
 
@@ -66,7 +75,7 @@ export class ProductServiceApiStack extends cdk.Stack {
       {
         restApi: api,
         requestValidatorName: 'createProductRequestValidator',
-        validateRequestParameters: true,
+        validateRequestBody: true,
       },
     );
 
